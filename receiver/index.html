@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="HugStars">
+    <meta name="keywords" content="HugStars">
+    <meta name="author" content="HugStars">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: Microsoft YaHei, 微软雅黑, Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-text-size-adjust: 100%;
+            user-select: none
+        }
+
+        body {
+            height: 100vh;
+            overflow: hidden;
+            background-color: #f8ecde;
+            padding: 0 20px
+        }
+
+        header {
+            padding: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            letter-spacing: .1em;
+            margin-right: auto
+        }
+
+        header p {
+            color: #7f5700;
+            font-size: 20px;
+            text-decoration: none
+        }
+
+        a,
+        button {
+            display: inline-block;
+            padding: 0 20px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            outline: 0;
+            border-radius: 20px;
+            background: #ffdca9;
+            color: #7f5700;
+            font-weight: 600;
+            transition: all .1s;
+            line-height: 40px;
+            text-decoration: none;
+        }
+
+        a:hover,
+        button:hover {
+            background: #f2d09e;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .2)
+        }
+
+        a:active,
+        button:active {
+            background: #e0bf8e
+        }
+
+        main {
+            height: calc(100vh - 100px);
+            border-radius: 30px;
+            overflow: hidden;
+        }
+
+        footer {
+            position: absolute;
+            width: 100%;
+            left: 0;
+            bottom: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        video {
+            background: #fff8f3;
+        }
+
+        .close_carmea {
+            display: none;
+        }
+
+        .msg {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0 40px;
+            border-radius: 50px;
+            background: #caffa9;
+            color: #14cc1b;
+            line-height: 40px;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+        }
+
+        .msg.error {
+            color: #ff2828;
+            background: #ffc2a9;
+        }
+
+        .file_box {
+            display: none;
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, 0);
+            width: 80vw;
+            background: #f8ecde;
+            color: #7f5700;
+            border-radius: 40px;
+            padding: 20px 40px 10px;
+            box-shadow: 0 5px 6px 2px rgba(0, 0, 0, .2);
+        }
+
+        .file_box p {
+            color: #7f5700;
+            font-size: 16px;
+            text-decoration: none;
+            text-align: center;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .btns {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+    </style>
+    <script src="./qr.js"></script>
+    <title>OfflineTransfer-接收端</title>
+</head>
+
+<body>
+    <header>
+        <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32">
+            <path
+                d="M842.666667 896h-661.333334C128 896 85.333333 853.333333 85.333333 800v-576C85.333333 170.666667 128 128 181.333333 128h162.133334c25.6 0 51.2 10.666667 70.4 29.866667l91.733333 98.133333c14.933333 14.933333 34.133333 23.466667 55.466667 23.466667h281.6c53.333333 0 96 42.666667 96 96v424.533333c0 53.333333-42.666667 96-96 96zM181.333333 192C164.266667 192 149.333333 204.8 149.333333 224v578.133333c0 17.066667 14.933333 29.866667 32 29.866667h661.333334c17.066667 0 32-14.933333 32-32V375.466667c0-17.066667-14.933333-32-32-32H561.066667c-38.4 0-74.666667-17.066667-102.4-44.8l-91.733334-98.133334c-6.4-6.4-14.933333-8.533333-23.466666-8.533333H181.333333z"
+                fill="#7f5700"></path>
+            <path
+                d="M450.133333 740.266667c-8.533333 0-14.933333-2.133333-21.333333-8.533334l-76.8-68.266666c-12.8-10.666667-14.933333-32-2.133333-44.8 6.4-6.4 14.933333-10.666667 23.466666-10.666667h277.333334c17.066667 0 32 14.933333 32 32s-14.933333 32-32 32h-192l12.8 10.666667c12.8 10.666667 14.933333 32 2.133333 44.8-4.266667 8.533333-12.8 12.8-23.466667 12.8zM650.666667 571.733333h-277.333334c-17.066667 0-32-14.933333-32-32s14.933333-32 32-32h192l-12.8-10.666666c-12.8-12.8-14.933333-32-2.133333-44.8s32-14.933333 44.8-2.133334l76.8 68.266667c12.8 10.666667 14.933333 32 2.133333 44.8-6.4 4.266667-14.933333 8.533333-23.466666 8.533333z"
+                fill="#7f5700"></path>
+        </svg>
+        <p>OfflineTransfer接收端</p>
+    </header>
+    <main></main>
+    <footer>
+        <button class="open_carmea">打开摄像头</button>
+        <button class="close_carmea">关闭摄像头</button>
+        <button class="reset">重置</button>
+        <input type="file" style="display: none;">
+    </footer>
+    <canvas style="display: none;"></canvas>
+    <p class="msg error"></p>
+    <div class="file_box">
+        <p class="name">文件名</p>
+        <p class="size">文件大小</p>
+        <div class="btns">
+            <button class="close_btns">关闭</button>
+            <a href="" download="" class="down">下载</a>
+        </div>
+    </div>
+    <script>
+        const open_carmea = document.querySelector('.open_carmea');
+        const close_carmea = document.querySelector('.close_carmea');
+        const canvas = document.querySelector('canvas')
+        const reset = document.querySelector('.reset');
+        const msg_box = document.querySelector('.msg');
+        const file_box = document.querySelector('.file_box');
+        const file_name = document.querySelector('.file_box .name');
+        const file_size = document.querySelector('.file_box .size');
+        const close_btns = document.querySelector('.file_box .close_btns');
+        const down_a = document.querySelector('.file_box a');
+        let endFlag = null;
+
+        let DataList = [];
+        let FileInfo = {};
+        let mediaStream = null;
+        let Timer = null;
+
+        const size = {
+            width: document.querySelector('main').clientWidth,
+            height: document.querySelector('main').clientHeight
+        }
+        canvas.width = size.width
+        canvas.height = size.height
+
+        const Video = document.createElement('video')
+        Video.width = size.width
+        Video.height = size.height
+        Video.autoplay = true
+        document.querySelector('main').appendChild(Video)
+
+        let deviceIds = new Array()
+        navigator.mediaDevices.enumerateDevices().then((devicesList) => {
+            for (var i = 0; i < devicesList.length; i++) {
+                if (devicesList[i]['kind'] == 'videoinput') deviceIds.push(devicesList[i]['deviceId'])
+            }
+        })
+
+        open_carmea.addEventListener('click', () => openMedia());
+        close_carmea.addEventListener('click', () => closeMedia());
+        reset.addEventListener('click', () => location.href = location.href);
+        close_btns.addEventListener('click', () => file_box.style.display = 'none');
+
+        function openMedia(exact = 'environment') {
+            let constraints = {
+                audio: false, video: {
+                    width: size.height,
+                    height: size.width,
+                    deviceId: deviceIds[0],
+                    facingMode: { exact }
+                }
+            }
+            mediaPromise = navigator.mediaDevices.getUserMedia(constraints)
+            mediaPromise.then(stream => {
+                mediaStream = stream
+                Video.srcObject = stream
+                Video.play()
+                open_carmea.style.display = 'none'
+                close_carmea.style.display = 'block'
+
+                Timer = setInterval(() => {
+                    scanQRCode()
+                }, 1000)
+            }).catch(err => {
+                exact == 'user' ? null : openMedia('user')
+            })
+        }
+
+        function closeMedia() {
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => track.stop())
+                Video.srcObject = null
+                open_carmea.style.display = 'block'
+                close_carmea.style.display = 'none'
+            }
+            clearInterval(Timer);
+
+            DataList.sort((a, b) => a.index - b.index);
+            let uniqueArr = DataList.reduce((acc, item) => {
+                if (!acc.has(item.index)) {
+                    acc.set(item.index, item);
+                }
+                return acc;
+            }, new Map()).values();
+
+            DataList = [...uniqueArr]
+
+            let base64 = ``;
+            DataList.map(item => base64 += item.data);
+
+            downFile(base64, FileInfo.name);
+        }
+
+        function scanQRCode() {
+            canvas.width = size.width
+            canvas.height = size.height
+            let ctx = canvas.getContext('2d')
+            ctx.drawImage(Video, 0, 0, size.width, size.height)
+
+            let imageData = ctx.getImageData(0, 0, size.width, size.height)
+
+            const code = jsQR(imageData.data, imageData.width, imageData.height, {
+                inversionAttempts: "dontInvert",
+            })
+            if (Object.prototype.toString.call(code) === '[object Object]') {
+                let codeDataList = code.data.split('|')
+                let splitInfo = JSON.parse(codeDataList[0])
+                let tips = `识别成功: ${splitInfo.i + 1} / ${splitInfo.a}`
+
+                if (codeDataList.length == 3) {
+                    FileInfo = JSON.parse(codeDataList[1])
+                    DataList.push({ data: codeDataList[2], index: splitInfo.i })
+                } else {
+                    DataList.push({ data: codeDataList[1], index: splitInfo.i })
+                    if (splitInfo.i + 1 === splitInfo.a) {
+                        if (endFlag === splitInfo.i) return closeMedia();
+                        endFlag = splitInfo.i;
+                    }
+                }
+                msg_box.innerHTML = tips
+                msg_box.classList.remove('error');
+                msg_box.style.display = 'block'
+                setTimeout(() => msg_box.style.display = 'none', 400)
+            }
+            else {
+                msg_box.innerHTML = "识别失败"
+                msg_box.classList.add('error');
+                msg_box.style.display = 'block'
+                setTimeout(() => msg_box.style.display = 'none', 400)
+            }
+        }
+
+        function downFile(base, filename) {
+            let b = convertBase64ToBlob(base)
+            objectUrl = window.URL.createObjectURL(b)
+            a = document.createElement('a')
+            down_a.href = objectUrl
+            down_a.download = filename
+            file_name.innerHTML = filename
+            file_size.innerHTML = (b.size / 1024).toFixed(2) + 'KB'
+            file_box.style.display = 'block'
+        }
+
+        function convertBase64ToBlob(base64) {
+            window.base = base64
+            let base64Arr = base64.split(',')
+            let type = ''
+            let base64String = ''
+            if (base64Arr.length > 1) {
+                base64String = base64Arr[1]
+                type = base64Arr[0].substring(
+                    base64Arr[0].indexOf(':') + 1,
+                    base64Arr[0].indexOf(';')
+                )
+            }
+            let bytes = atob(base64String)
+            let bytesCode = new ArrayBuffer(bytes.length)
+            let byteArray = new Uint8Array(bytesCode)
+            for (let i = 0; i < bytes.length; i++) {
+                byteArray[i] = bytes.charCodeAt(i)
+            }
+            return new Blob([bytesCode], { type: type })
+        }
+    </script>
+</body>
+
+</html>

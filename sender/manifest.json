@@ -1,0 +1,25 @@
+{
+    "name": "OfflineTransfer",
+    "description": "离线文件传输-发送端",
+    "version": "1.0.0",
+    "manifest_version": 3,
+    "author": "HugStars",
+    "action": {
+        "default_popup": "./html/popup.html"
+    },
+    "permissions": [
+        "activeTab",
+        "tabs"
+    ],
+    "offline_enabled": true,
+    "host_permissions": [
+        "*://*/*",
+        "file://*"
+    ],
+    "icons": {
+        "16": "./public/icon.png",
+        "48": "./public/icon.png",
+        "96": "./public/icon.png",
+        "128": "./public/icon.png"
+    }
+}

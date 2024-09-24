@@ -1,0 +1,141 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Microsoft YaHei, 微软雅黑, Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color: #333;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+    user-select: none
+}
+
+body {
+    background-color: #f8ecde;
+    padding: 0 40px
+}
+
+header {
+    padding: 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    letter-spacing: .1em;
+    margin-right: auto
+}
+
+header p {
+    color: #7f5700;
+    font-size: 20px;
+    text-decoration: none
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 100px);
+    background-color: #fff8f3;
+    border-radius: 30px;
+    padding: 20px
+}
+
+footer {
+    height: 44px
+}
+
+.ipt_box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    height: 60px
+}
+
+.ipt_box input {
+    display: none
+}
+
+button {
+    height: 40px;
+    padding: 0 20px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    outline: 0;
+    border-radius: 20px;
+    background: #ffdca9;
+    color: #7f5700;
+    font-weight: 600;
+    transition: all .1s
+}
+
+button:hover {
+    background: #f2d09e;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .2)
+}
+
+button:active {
+    background: #e0bf8e
+}
+
+.file_info {
+    display: none;
+    background: #ffdca9;
+    padding: 0 20px;
+    line-height: 40px;
+    border-radius: 20px
+}
+
+.file_info, .file_info b {
+    color: #7f5700
+}
+
+.trans {
+    display: none
+}
+
+.active .uoload {
+    border-radius: 20px 0 0 20px;
+    z-index: 1
+}
+
+.active .file_info {
+    border-radius: 0 20px 20px 0;
+    margin-left: -20px
+}
+
+.result_box {
+    width: 100%;
+    display: flex;
+    flex: 1
+}
+
+.control_box, .result_box {
+    align-items: center;
+    justify-content: center
+}
+
+.control_box {
+    display: flex;
+    display: none;
+    gap: 16px;
+    transition: all .2s
+}
+
+.qrcod {
+    display: none
+}
+
+.control_box p {
+    background: #ffdca9;
+    color: #7f5700;
+    padding: 0 20px;
+    line-height: 40px;
+    border-radius: 20px
+}
+
+.control_box .runder {
+    display: none
+}
