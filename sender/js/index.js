@@ -10,8 +10,16 @@ let controlBox_P_Rander = document.querySelector(".control_box p.runder");
 let prevBtn = document.querySelector(".prev");
 let nextBtn = document.querySelector(".next");
 
+let configBtn = document.querySelector("header .config");
+let configDialog = document.querySelector("dialog#config");
+let cancelBtn = document.querySelector("dialog#config .cancel");
+let saveBtn = document.querySelector("dialog#config .save");
+let elSize = document.querySelector(".config_box .item input#size");
+
+
 let QrIndex = 0;
 let AllIndex = 0;
+let QrCodeDataSize = localStorage.getItem('QrCodeDataSize') ? localStorage.getItem('QrCodeDataSize') : 1300;
 
 
 uoloadBtn.addEventListener("click", () => {
@@ -38,7 +46,8 @@ transBtn.addEventListener("click", () => {
     reader.onload = function () {
         let data = `${JSON.stringify({ name: file.name, type: file.type })}|` + reader.result;
         controlBox.style.display = "flex";
-        let dataArr = data.match(/.{1,1300}/g);
+        let reg = `.{1,${QrCodeDataSize}}`
+        let dataArr = data.match(new RegExp(reg, "g"));
         QrIndex = 0;
         AllIndex = dataArr.length;
         ChangeView();
@@ -102,10 +111,30 @@ window.addEventListener("keydown", (e) => {
     }
 })
 
+configBtn.addEventListener("click", () => {
+    configDialog.showModal()
+    elSize.value = QrCodeDataSize
+})
+
+cancelBtn.addEventListener("click", () => {
+    configDialog.close()
+})
+
+saveBtn.addEventListener("click", () => {
+    if (elSize.value < 500 || elSize.value > 2900) {
+        return alert('数据过大会导致生成二维码失败，建议设置500-2900')
+    }
+    QrCodeDataSize = elSize.value
+    localStorage.setItem('QrCodeDataSize', QrCodeDataSize)
+    configDialog.close()
+})
+
 async function DrawQrcode(str) {
     return await QRCode.toDataURL(str, {
         errorCorrectionLevel: "L",
         margin: 4,
         scale: 5
+    }).catch(err => {
+        console.log(err)
     })
 }

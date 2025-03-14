@@ -18,6 +18,7 @@
     <header>
         <img src="../public/icon.svg" alt="HugStars" width="32" height="32" />
         <p>OfflineTransfer</p>
+        <button class="config">配置</button>
     </header>
     <main>
         <div class="ipt_box">
@@ -34,6 +35,20 @@
             <button class="next">下一张</button>
         </div>
     </main>
+    <dialog id="config">
+        <p class="title">二维码配置</p>
+        <div class="config_box">
+            <div class="item">
+                <div class="lable">数据大小</div>
+                <input type="number" name="size" id="size"></input>
+            </div>
+        </div>
+        <div class="config_foot">
+            <button class="cancel">取消</button>
+            <button class="save">保存</button>
+        </div>
+
+    </dialog>
     <footer></footer>
     <script src="../js/index.js"></script>
 </body>
